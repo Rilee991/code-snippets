@@ -20,7 +20,7 @@ public:
                     lds[revI] = max(lds[revI], lds[j] + 1);
             }
 
-            cout<<lis[i]<<" "<<lds[revI]<<"\n";
+            // cout<<lis[i]<<" "<<lds[revI]<<"\n";
         }
 
         for(int i=0;i<n;i++) {
