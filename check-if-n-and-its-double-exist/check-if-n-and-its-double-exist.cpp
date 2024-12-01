@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool checkIfExist(vector<int>& arr) {
-        unordered_map<int,bool> mp;
+        map<int,bool> mp;
 
         for(int num: arr) {
             if(mp.find(num * 2) != mp.end())
