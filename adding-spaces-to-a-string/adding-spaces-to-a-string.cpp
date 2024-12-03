@@ -2,14 +2,18 @@ class Solution {
 public:
     string addSpaces(string s, vector<int>& spaces) {
         string res = "";
-        int spaceIdx = 0;
+        unordered_map<int,bool> mp;
+        // int spaceIdx = 0;
 
-        sort(spaces.begin(), spaces.end());
+        for(int sp: spaces)
+            mp[sp] = 1;
+
+        // sort(spaces.begin(), spaces.end());
 
         for(int i=0;i<s.size();i++) {
-            if(spaceIdx < spaces.size() && i == spaces[spaceIdx]) {
+            if(mp[i]) {
                 res += ' ';
-                spaceIdx++;
+                // spaceIdx++;
             }
 
             res += s[i];
