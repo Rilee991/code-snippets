@@ -4,8 +4,6 @@ public:
         string res = "";
         int spaceIdx = 0;
 
-        sort(spaces.begin(), spaces.end());
-
         for(int i=0;i<s.size();i++) {
             if(spaceIdx < spaces.size() && i == spaces[spaceIdx]) {
                 res += ' ';
