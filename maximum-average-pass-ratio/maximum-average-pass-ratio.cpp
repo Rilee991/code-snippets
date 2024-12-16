@@ -1,39 +1,45 @@
-using info = tuple<double, int, int>;
-info A[100000];
 class Solution {
 public:
-    static double maxAverageRatio(vector<vector<int>>& classes, int k) {
-        const int n = classes.size();
+    double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
+        priority_queue<tuple<double,int>> pq;
         double sum = 0.0;
-        int i = 0;
-        for (auto& pq : classes) {
-            int p = pq[0], q = pq[1];
-            sum += (double)p/q;
-            double inc=(double)(q - p) / (q * (q + 1.0));
-            A[i++]={inc, p, q};
+
+        for(int i=0;i<classes.size();i++) {
+            int pass = classes[i][0];
+            int total = classes[i][1];
+            double passRatio = (pass*1.0)/(total*1.0);
+            double newPassRatio = ((pass+1)*1.0)/((total+1)*1.0);
+            double increment = newPassRatio - passRatio;
+
+            pq.push({ increment, i });
         }
-        
-        make_heap(A, A+n);
-        
-        for (int i = 0; i < k; i++) {
-            pop_heap(A, A+n);
-            auto [r, p, q] = A[n-1];
-            if (r==0) break;// early stop
-            
-            // Add the current inc to the sum
-            sum += r;
-            double r2= (double)(q - p) / ((q +1.0)* (q + 2.0));
-            A[n-1]={ r2, p+1, q+1};
-            push_heap(A, A+n);
+
+        while(extraStudents--) {
+            auto tp = pq.top();
+            double increment = get<0>(tp);
+            int idx = get<1>(tp);
+            pq.pop();
+
+            classes[idx][0] += 1;
+            classes[idx][1] += 1;
+
+            int pass = classes[idx][0];
+            int total = classes[idx][1];
+            double passRatio = (pass*1.0)/(total*1.0);
+            double newPassRatio = ((pass+1)*1.0)/((total+1)*1.0);
+            double newIncrement = newPassRatio - passRatio;
+
+            pq.push({ newIncrement, idx });
         }
-        
-        return sum / n;
+
+        for(int i=0;i<classes.size();i++) {
+            int pass = classes[i][0];
+            int total = classes[i][1];
+            double passRatio = (pass*1.0)/(total*1.0);
+
+            sum += passRatio;
+        }
+
+        return sum/classes.size();
     }
 };
-
-auto init = []() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    return 'c';
-}();
