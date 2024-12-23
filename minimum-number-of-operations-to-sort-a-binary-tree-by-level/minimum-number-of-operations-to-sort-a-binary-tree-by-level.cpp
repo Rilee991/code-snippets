@@ -26,7 +26,7 @@ public:
             if(arr[i] != sortedArr[i]) {
                 int sortedIdx = elemIdxMap[sortedArr[i]];
                 elemIdxMap[arr[i]] = sortedIdx;
-                elemIdxMap[arr[sortedIdx]] = i;
+                // elemIdxMap[arr[sortedIdx]] = i;
                 swap(arr[i], arr[sortedIdx]);
                 res++;
             }
