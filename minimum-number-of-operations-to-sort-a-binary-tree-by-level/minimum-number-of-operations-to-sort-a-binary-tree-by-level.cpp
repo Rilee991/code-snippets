@@ -12,7 +12,7 @@
 class Solution {
 public:
     int findMinSwap(vector<int> &arr) {
-        unordered_map<int,int> elemIdxMap;
+        map<int,int> elemIdxMap;
         vector<int> sortedArr(arr.begin(), arr.end());
         int res = 0;
 
