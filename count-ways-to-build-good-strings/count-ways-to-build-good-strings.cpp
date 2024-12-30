@@ -19,7 +19,18 @@ public:
     }
 
     int countGoodStrings(int low, int high, int zero, int one) {
-        dp.resize(high+1, -1);
-        return dfs(low, high, zero, one, 0);
+        dp.resize(high+1, 0);
+
+        for(int i=high;i>=0;i--) {
+            int zCount = i+zero > high ? 0 : dp[i+zero]%M;
+            int oCount = i+one > high ? 0 : dp[i+one]%M;
+
+            if(i >= low)
+                zCount++;
+            
+            dp[i] = (zCount%M + oCount)%M;
+        }
+
+        return dp[0];
     }
 };
