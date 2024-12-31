@@ -1,8 +1,12 @@
 class Solution {
+    vector<int> dp;
 public:
     int dfs(vector<int>& days, vector<int>& costs, int n) {
         if(n <= 0)
             return 0;
+        
+        if(dp[n] != -1)
+            return dp[n];
 
         int sIdx = lower_bound(days.begin(), days.end(), days[n-1]-7) - days.begin();
         int tIdx = lower_bound(days.begin(), days.end(), days[n-1]-30) - days.begin();
@@ -20,10 +24,11 @@ public:
         int thirtyDay = costs[2] + dfs(days, costs, tIdx+1);
         cout<<"oneDay:"<<oneDay<<", sevenDay:"<<sevenDay<<", thirtyDay:"<<thirtyDay<<"\n";
 
-        return min(oneDay, min(sevenDay, thirtyDay));
+        return dp[n] = min(oneDay, min(sevenDay, thirtyDay));
     }
 
     int mincostTickets(vector<int>& days, vector<int>& costs) {
+        dp.resize(days.size()+1, -1);
         return dfs(days, costs, days.size());
     }
 };
