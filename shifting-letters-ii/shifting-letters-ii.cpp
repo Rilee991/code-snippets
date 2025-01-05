@@ -49,7 +49,7 @@ public:
             pref[i] = (pref[i] + (i-1 >= 0 ? pref[i-1] : 0))%26;
 
             res += getChar(str[i], pref[i]);
-            cout<<i<<" "<<pref[i]<<" "<<res[i]<<"\n";
+            // cout<<i<<" "<<pref[i]<<" "<<res[i]<<"\n";
         }
         
         return res;
