@@ -1,39 +1,49 @@
-   class Solution {
+class Solution {
 public:
-    bool canBeValid(string parentheses, string lockedStatus) {
-        int stringLength = parentheses.size();
-        if (stringLength % 2 == 1) {
-            return false;
-        }
+    bool canBeValid(string s, string locked) {
+        // 0 1
+        // (()(()(())))
+        stack<int> st;
+        int open = 0, close = 0, flex = 0;
 
-        stack<int> openIndices;
-        stack<int> unlockedIndices;
-
-        for (int i = 0; i < stringLength; i++) {
-            if (lockedStatus[i] == '0') {
-                unlockedIndices.push(i);
-            } else if (parentheses[i] == '(') {
-                openIndices.push(i);
-            } else if (parentheses[i] == ')') {
-                if (!openIndices.empty()) {
-                    openIndices.pop();
-                } else if (!unlockedIndices.empty()) {
-                    unlockedIndices.pop();
-                } else {
-                    return false;
-                }
+        for(int i=0;i<s.size();i++) {
+            if(!st.empty() && s[i] == ')' && s[st.top()] == '(') {
+                st.pop();
+            } else {
+                st.push(i);
             }
         }
 
-        while (!openIndices.empty() && !unlockedIndices.empty() &&
-               openIndices.top() < unlockedIndices.top()) {
-            openIndices.pop();
-            unlockedIndices.pop();
+
+        if(st.empty())
+            return true;
+        // 0
+        // op = 0, cl = 0, fl = 2
+        while(!st.empty()) {
+            int idx = st.top();
+            st.pop();
+
+            if(locked[idx] == '0') {
+                if(close) close--;
+                else flex++;
+            } else {
+                if(s[idx] == '(') {
+                    if(close)
+                        close--;
+                    else if(flex)
+                        flex--;
+                    else
+                        return false;
+                } else {
+                    close++;
+                }
+            }
+
+            // 0 0 - continue
+            // 0 1 - if idx1 is locked and is open bracket then false, else continue
+            // 1 0 - if
         }
 
-        if (openIndices.empty() && !unlockedIndices.empty()) {
-            return unlockedIndices.size() % 2 == 0;
-        }
-        return openIndices.empty();
+        return (close + flex)%2 == 0;
     }
 };
